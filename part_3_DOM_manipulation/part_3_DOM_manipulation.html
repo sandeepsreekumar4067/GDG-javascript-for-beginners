@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation Examples</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .box { width: 100px; height: 100px; background-color: blue; margin: auto; transition: 0.5s; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <h1>DOM Manipulation Examples</h1>
+
+    <!-- Example 1: Change Text Content -->
+    <h2 id="text-example">Click the button to change me!</h2>
+    <button onclick="changeText()">Change Text</button>
+
+    <!-- Example 2: Change Style -->
+    <div class="box" id="colorBox"></div>
+    <button onclick="changeColor()">Change Color</button>
+
+    <!-- Example 3: Toggle Visibility -->
+    <p id="toggleText">You can hide and show me!</p>
+    <button onclick="toggleVisibility()">Toggle Visibility</button>
+
+    <!-- Example 4: Create and Append Elements -->
+    <div id="listContainer">
+        <h2>Dynamic List</h2>
+        <ul id="dynamicList"></ul>
+    </div>
+    <button onclick="addListItem()">Add Item</button>
+    <button onclick="deleteItem()">Delete item</button>
+    <script>
+        // 🚀 Example 1: Change Text Content
+        function changeText() {
+            document.getElementById("text-example").innerText="changed"
+        }
+
+        // 🚀 Example 2: Change Style (Change background color)
+        function changeColor() {
+            let box = document.getElementById("colorBox");
+            box.style.backgroundColor = box.style.backgroundColor === "blue" ? "red" : "blue";
+        }
+
+        // 🚀 Example 3: Toggle Visibility (Show/Hide an element)
+        function toggleVisibility() {
+            let text = document.getElementById("toggleText");
+            text.classList.toggle("hidden");
+        }
+
+        // 🚀 Example 4: Create and Append Elements (Add a new list item)
+        function addListItem() {
+            let list = document.getElementById("dynamicList");
+            let newItem = document.createElement("li");
+            newItem.innerText = "New Item " + (list.children.length + 1);
+            list.appendChild(newItem);
+        }
+        function deleteItem(){
+            let list = document.getElementById("dynamicList")
+            if(list.children.length>0){
+                list.removeChild(list.lastElementChild)
+            }else{
+                alert("Deleted All elements")
+            }
+        }
+    </script>
+
+</body>
+</html>

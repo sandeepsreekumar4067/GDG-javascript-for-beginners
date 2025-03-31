@@ -12,10 +12,13 @@ console.log(greet("John")); // Output: Hello, John!
 
 // 🚀 2. Function Expression (Anonymous Function)
 // Function is stored in a variable and cannot be called before its definition.
+//Using functions as arguments or return values
+//Defining reusable functions.
+
+// Functions that should be available before their declaration (hoisting).
 const greetExpression = function(name) {
     return "Hello, " + name + "!";
 };
-
 console.log(greetExpression("Alice")); // Output: Hello, Alice!
 
 
@@ -33,6 +36,7 @@ console.log(greetArrow("Bob")); // Output: Hello, Bob!
 
 
 // 🚀 4. Immediately Invoked Function Expression (IIFE)
+// Encapsulating variables to avoid conflicts.
 // Function runs immediately after being defined, useful to avoid polluting the global scope.
 (function() {
     console.log("This runs immediately! 🚀");
@@ -44,6 +48,9 @@ console.log(greetArrow("Bob")); // Output: Hello, Bob!
 
 // 🚀 5. Higher-Order Function (Function that takes another function as an argument)
 // This function takes another function as a parameter.
+// Passing one function inside another for reusability.
+
+// Functional programming techniques.
 function doMath(operation, a, b) {
     return operation(a, b);
 }
@@ -60,6 +67,7 @@ console.log(doMath(add, 5, 3)); // Output: 8
 
 // 🚀 6. Callback Function (Function passed as an argument to another function)
 // Commonly used in asynchronous operations.
+// Asynchronous operations like API calls, file reading, etc.
 function fetchData(callback) {
     setTimeout(() => {
         callback("Data loaded! ✅");
