@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP Ultimate Animations + Background Particles</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Physics2DPlugin.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #121212;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .start-btn {
+            font-size: 24px;
+            padding: 15px 40px;
+            background: linear-gradient(90deg, #ff4081, #1e88e5);
+            border: none;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            /* position: absolute; */
+            top: 50%;
+            left: 50%;
+            /* transform: translate(-50%, -50%); */
+            animation: pulse 1.5s infinite;
+            z-index: 999;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #ff4081, #1e88e5);
+            border-radius: 15px;
+            opacity: 0;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .particle {
+            position: absolute;
+            width: 1rem;
+            height: 1rem;
+            background: #ffeb3b;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .bg-particle {
+            position: absolute;
+            width: 8.5px;
+            height: 8.5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="start-btn">Animate Me</button>
+    <div class="container">
+        <div class="box box1"></div>
+        <div class="box box2"></div>
+        <div class="box box3"></div>
+        <div class="box box4"></div>
+        <div class="box box5"></div>
+    </div>
+
+    <script>
+        const startBtn = document.querySelector('.start-btn');
+        const container = document.querySelector('.container');
+
+        startBtn.addEventListener('click', () => {
+            gsap.to(startBtn, { opacity: 0, y: -50, duration: 0.5, onComplete: () => startBtn.remove() });
+            gsap.to(container, { opacity: 1, duration: 1 });
+            gsap.fromTo(".box", 
+                { y: -200, opacity: 0, scale: 0 },
+                { duration: 1.5, opacity: 1, y: 0, scale: 1, ease: "bounce.out", stagger: 0.2 }
+            );
+        });
+
+        function createParticles(x, y) {
+            for (let i = 0; i < 20; i++) {
+                let particle = document.createElement("div");
+                particle.classList.add("particle");
+                document.body.appendChild(particle);
+                gsap.set(particle, { x, y });
+
+                gsap.to(particle, {
+                    physics2D: { 
+                        velocity: gsap.utils.random(200, 500), 
+                        angle: gsap.utils.random(0, 360), 
+                        gravity: 100 
+                    },
+                    opacity: 0,
+                    duration: 1,
+                    onComplete: () => particle.remove()
+                });
+            }
+        }
+
+        function createBackgroundParticles() {
+            for (let i = 0; i < 500; i++) {
+                let bgParticle = document.createElement("div");
+                bgParticle.classList.add("bg-particle");
+                document.body.appendChild(bgParticle);
+                
+                let x = gsap.utils.random(0, window.innerWidth);
+                let y = gsap.utils.random(0, window.innerHeight);
+                gsap.set(bgParticle, { x, y });
+
+                gsap.to(bgParticle, {
+                    y: `+=${gsap.utils.random(-800, 0)}`,
+                    x: `+=${gsap.utils.random(-2100, 0)}`,
+                    opacity: gsap.utils.random(0.3, 0.7),
+                    duration: gsap.utils.random(2, 5),
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+        createBackgroundParticles();
+
+        document.querySelectorAll('.box').forEach(box => {
+            box.addEventListener("click", (e) => {
+                createParticles(e.clientX, e.clientY);
+            });
+        });
+
+        document.querySelector('.box1').addEventListener("click", () => {
+            gsap.to(".box1", { scale: 2, rotation: 720, backgroundColor: "#ffeb3b", duration: 0.5 });
+            setTimeout(() => gsap.to(".box1", { scale: 1, rotation: 0, backgroundColor: "#ff4081", duration: 0.5 }), 1000);
+        });
+
+        // 🚀 Box 2: MORPH INTO CIRCLE THEN BACK
+        document.querySelector('.box2').addEventListener("click", () => {
+            gsap.to(".box2", { borderRadius: "50%", scale: 1.5, backgroundColor: "#00ff99", duration: 0.7 });
+            setTimeout(() => gsap.to(".box2", { borderRadius: "15px", scale: 1, backgroundColor: "#1e88e5", duration: 0.7 }), 1000);
+        });
+
+        // 🚀 Box 3: FLIP IN 3D & GLOW
+        document.querySelector('.box3').addEventListener("click", () => {
+            gsap.to(".box3", { rotationY: 360, backgroundColor: "#ff0000", boxShadow: "0px 0px 20px #ff0000", duration: 1.2 });
+        });
+
+        // 🚀 Box 4: FLOAT UP & FADE, THEN REAPPEAR
+        document.querySelector('.box4').addEventListener("click", () => {
+            gsap.to(".box4", { y: -300, opacity: 0, duration: 1.5, ease: "power3.out" });
+            setTimeout(() => gsap.to(".box4", { y: 0, opacity: 1, duration: 1 }), 2000);
+        });
+
+        // 🚀 Box 5: RAPID SPIN, SHRINK, DISAPPEAR, THEN REAPPEAR
+        document.querySelector('.box5').addEventListener("click", () => {
+            gsap.to(".box5", { scale: 0, rotation: 1080, opacity: 0, duration: 0.8, ease: "power4.out" });
+            setTimeout(() => gsap.to(".box5", { scale: 1, rotation: 0, opacity: 1, duration: 0.8 }), 1500);
+        });
+
+    </script>
+
+</body>
+</html>
