@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            position: relative;
+            width: 80%;
+            height: 200px;
+            border: 2px solid black;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .box {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 0;
+            transition: left 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple Animation Example</h1>
+    <div class="container">
+        <div class="box" id="animatedBox"></div>
+    </div>
+    <button onclick="moveBox()">Move Box</button>
+
+    <script>
+        let position = 0;
+        let containerWidth = document.querySelector(".container").offsetWidth - 50; // Box width is 50px
+
+        function moveBox() {
+            let box = document.getElementById("animatedBox");
+            position = position === 0 ? containerWidth : 0;
+            box.style.left = position + "px";
+        }
+    </script>
+
+</body>
+</html>
