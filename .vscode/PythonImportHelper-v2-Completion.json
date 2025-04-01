@@ -1,0 +1,36 @@
+[
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "UserData",
+        "kind": 6,
+        "importPath": "server",
+        "description": "server",
+        "peekOfCode": "class UserData(BaseModel):\n    name: str\n    age: int\n    email: str\n    skills: list[str]\n@app.post(\"/submit\")\nasync def receive_data(user: UserData):\n    print(\"Received Data:\", user.dict())  # Print to terminal\n    return {\"message\": \"Data received successfully\", \"data\": user}\n# Run this with: uvicorn filename:app --reload",
+        "detail": "server",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "server",
+        "description": "server",
+        "peekOfCode": "app = FastAPI()\n@app.get(\"/\")\nasync def return_false():\n    return False  # Returning a boolean value\n# Define a request model\nclass UserData(BaseModel):\n    name: str\n    age: int\n    email: str\n    skills: list[str]",
+        "detail": "server",
+        "documentation": {}
+    }
+]
